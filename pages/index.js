@@ -24,15 +24,16 @@ export default function Home() {
     username: yup.string().required('Preenchimento obrigatório'),
   });
 
-  const formik = useFormik({
-    onSubmit: () => {},
-    validationSchema,
-    initialValues: {
-      email: '',
-      usename: '',
-      password: '',
-    },
-  });
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      onSubmit: () => {},
+      validationSchema,
+      initialValues: {
+        email: '',
+        usename: '',
+        password: '',
+      },
+    });
 
   return (
     <Container p={4} centerContent>
@@ -45,13 +46,13 @@ export default function Home() {
           <FormLabel>Email</FormLabel>
           <Input
             type="email"
-            values={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+            values={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
-          {formik.touched.email && (
+          {touched.email && (
             <FormHelperText textColor="#E74C3C">
-              {formik.errors.email}
+              {errors.email}
             </FormHelperText>
           )}
         </FormControl>
@@ -60,13 +61,13 @@ export default function Home() {
           <FormLabel>Senha</FormLabel>
           <Input
             type="password"
-            values={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+            values={values.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
-          {formik.touched.password && (
+          {touched.password && (
             <FormHelperText textColor="#E74C3C">
-              {formik.errors.password}
+              {errors.password}
             </FormHelperText>
           )}
         </FormControl>
@@ -76,19 +77,21 @@ export default function Home() {
           <FormControl id="username" p={4} isRequired>
             <Input
               type="username"
-              values={formik.values.username}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              values={values.username}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
-            {formik.touched.username && (
+            {touched.username && (
               <FormHelperText textColor="#E74C3C">
-                {formik.errors.username}
+                {errors.username}
               </FormHelperText>
             )}
           </FormControl>
         </Box>
         <Box p={4}>
-          <Button width="100%">Entrar</Button>
+          <Button width="100%" onClick={handleSubmit}>
+            Entrar
+          </Button>
         </Box>
       </Box>
     </Container>
