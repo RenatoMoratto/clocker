@@ -26,16 +26,23 @@ export default function Home() {
     username: yup.string().required('Preenchimento obrigatório'),
   });
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-    useFormik({
-      onSubmit: () => {},
-      validationSchema,
-      initialValues: {
-        email: '',
-        usename: '',
-        password: '',
-      },
-    });
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    isSubmitting,
+  } = useFormik({
+    onSubmit: (values, form) => {},
+    validationSchema,
+    initialValues: {
+      email: '',
+      usename: '',
+      password: '',
+    },
+  });
 
   return (
     <Container p={4} centerContent>
@@ -91,7 +98,7 @@ export default function Home() {
           )}
         </FormControl>
         <Box p={4}>
-          <Button width="100%" onClick={handleSubmit}>
+          <Button width="100%" onClick={handleSubmit} isLoading={isSubmitting}>
             Entrar
           </Button>
         </Box>
