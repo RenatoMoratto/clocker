@@ -10,6 +10,8 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
+  InputGroup,
+  InputLeftAddon,
 } from '@chakra-ui/react';
 
 import { Logo } from '../components/Logo';
@@ -45,21 +47,21 @@ export default function Home() {
         <FormControl id="email" p={4} isRequired>
           <FormLabel>Email</FormLabel>
           <Input
+            size="lg"
             type="email"
             values={values.email}
             onChange={handleChange}
             onBlur={handleBlur}
           />
           {touched.email && (
-            <FormHelperText textColor="#E74C3C">
-              {errors.email}
-            </FormHelperText>
+            <FormHelperText textColor="#E74C3C">{errors.email}</FormHelperText>
           )}
         </FormControl>
 
         <FormControl id="password" p={4} isRequired>
           <FormLabel>Senha</FormLabel>
           <Input
+            size="lg"
             type="password"
             values={values.password}
             onChange={handleChange}
@@ -72,22 +74,22 @@ export default function Home() {
           )}
         </FormControl>
 
-        <Box display="flex" flexDirection="row" alignItems="center">
-          <Text>clocker.work/</Text>
-          <FormControl id="username" p={4} isRequired>
+        <FormControl id="username" p={4} isRequired>
+          <InputGroup size="lg">
+            <InputLeftAddon children="clocker.work/" />
             <Input
               type="username"
               values={values.username}
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            {touched.username && (
-              <FormHelperText textColor="#E74C3C">
-                {errors.username}
-              </FormHelperText>
-            )}
-          </FormControl>
-        </Box>
+          </InputGroup>
+          {touched.username && (
+            <FormHelperText textColor="#E74C3C">
+              {errors.username}
+            </FormHelperText>
+          )}
+        </FormControl>
         <Box p={4}>
           <Button width="100%" onClick={handleSubmit}>
             Entrar
