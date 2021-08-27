@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 
 import { Logo } from '../components/Logo';
-import { firebaseClient } from '../config/firebase';
+import { firebaseClient } from '../config/firebase/client';
 
 export default function SignUp() {
   const validationSchema = yup.object().shape({
