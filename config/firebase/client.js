@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import firebaseClient from 'firebase/app';
 import 'firebase/auth';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -15,10 +15,10 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
 };
 
-const app = firebase.apps.length
-  ? firebase.app()
-  : firebase.initializeApp(firebaseConfig);
+const app = firebaseClient.apps.length
+  ? firebaseClient.app()
+  : firebaseClient.initializeApp(firebaseConfig);
 
-export const persistenceMode = firebase.auth.Auth.Persistence.LOCAL;
+export const persistenceMode = firebaseClient.auth.Auth.Persistence.LOCAL;
 
-export default app;
+export { firebaseClient };
