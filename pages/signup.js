@@ -1,6 +1,10 @@
+import { useEffect } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import Link from 'next/link';
+import axios from 'axios';
+
 import {
   Container,
   Box,
@@ -14,18 +18,20 @@ import {
   InputLeftAddon,
 } from '@chakra-ui/react';
 
-import { Logo } from '../components/Logo';
-import { firebaseClient } from '../config/firebase/client';
+import { Logo, useAuth } from '../components';
+
+const validationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email('E-mail inválido')
+    .required('Preenchimento obrigatório'),
+  password: yup.string().required('Preenchimento obrigatório'),
+  username: yup.string().required('Preenchimento obrigatório'),
+});
 
 export default function SignUp() {
-  const validationSchema = yup.object().shape({
-    email: yup
-      .string()
-      .email('E-mail inválido')
-      .required('Preenchimento obrigatório'),
-    password: yup.string().required('Preenchimento obrigatório'),
-    username: yup.string().required('Preenchimento obrigatório'),
-  });
+  const [auth, { signup }] = useAuth();
+  const router = useRouter();
 
   const {
     values,
@@ -36,16 +42,7 @@ export default function SignUp() {
     handleSubmit,
     isSubmitting,
   } = useFormik({
-    onSubmit: async (values, form) => {
-      try {
-        const user = await firebaseClient
-          .auth()
-          .createUserWithEmailAndPassword(values.email, values.password)
-          .then((res) => console.log(res));
-      } catch (erro) {
-        console.error('Erro:\n', erro);
-      }
-    },
+    onSubmit: signup,
     validationSchema,
     initialValues: {
       email: '',
@@ -53,6 +50,10 @@ export default function SignUp() {
       password: '',
     },
   });
+
+  useEffect(() => {
+    auth.user && router.push('/agenda')
+  }, [auth.user])
 
   return (
     <Container p={4} centerContent>
