@@ -15,6 +15,8 @@ import {
   FormHelperText,
 } from '@chakra-ui/react';
 
+import { Logo, useAuth } from '../components';
+
 const validationSchema = yup.object().shape({
   email: yup
     .string()
@@ -23,7 +25,6 @@ const validationSchema = yup.object().shape({
   password: yup.string().required('Preenchimento obrigatório'),
 });
 
-import { Logo, useAuth } from '../components';
 
 export default function Login() {
   const [auth, { login }] = useAuth();

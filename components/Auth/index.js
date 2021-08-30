@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { useState, useEffect, useContext } from 'react';
-import { firebaseClient, persistenceMode } from '../../config/firebase/client';
+import axios from 'axios';
+
+import {
+  firebaseClient,
+  persistenceMode,
+} from './../../config/firebase/client';
 
 const AuthContext = React.createContext([{}, () => {}]);
 
@@ -11,6 +16,7 @@ export const login = async ({ email, password }) => {
 
   try {
     await firebaseClient.auth().signInWithEmailAndPassword(email, password);
+    return firebaseClient.auth().currentUser;
   } catch (error) {
     console.log('LOGIN ERROR:', error);
   }
@@ -18,24 +24,19 @@ export const login = async ({ email, password }) => {
 
 export const signup = async ({ email, password, username }) => {
   try {
-    await firebaseClient
-      .auth()
-      .createUserWithEmailAndPassword(email, password);
+    await firebaseClient.auth().createUserWithEmailAndPassword(email, password);
+    const user = await login({ email, password });
+    const token = await user.getIdToken();
 
-    await login(email, password);
+    const { data } = await axios({
+      method: 'post',
+      url: '/api/profile',
+      data: { username },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-    // setupProfile({ token, username });
-
-    // const { data } = await axios({
-    //   method: 'POST',
-    //   url: '/api/profile',
-    //   data: {
-    //     username: values.username,
-    //   },
-    //   header: {
-    //     Authentication: `Bearer ${user.getToken()}`,
-    //   },
-    // });
   } catch (error) {
     console.log('SIGNUP ERROR:', error);
   }
@@ -43,11 +44,10 @@ export const signup = async ({ email, password, username }) => {
 
 export const useAuth = () => {
   const [auth] = useContext(AuthContext);
-
   return [auth, { login, logout, signup }];
 };
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({
     loading: true,
     user: false,
@@ -61,7 +61,7 @@ export function AuthProvider({ children }) {
       });
     });
 
-    return () => unsubscribe()
+    return () => unsubscribe();
   }, []);
 
   return (
@@ -69,4 +69,4 @@ export function AuthProvider({ children }) {
       {children}
     </AuthContext.Provider>
   );
-}
+};
