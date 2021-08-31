@@ -6,17 +6,21 @@ import { addDays, subDays } from 'date-fns';
 import { Box, Button, Container, IconButton } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
+import { getToken } from '../config/firebase/client';
 import { useAuth, Logo, formatDate } from '../components';
 
-const getAgenda = (when) =>
-  axios({
+const getAgenda = async (when) => {
+  const token = await getToken();
+
+  return axios({
     method: 'get',
     url: '/api/agenda',
     params: { when },
-    // headers: {
-    //   Authrization: `Bearer ${token}`,
-    // },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
+};
 
 function Header({ children }) {
   return (
