@@ -19,17 +19,9 @@ git clone https://github.com/RenatoMoratto/clocker.git
 ### 🔧 Installation
 
 Access the repository and run:
-```
-npm i
-## or
-yarn install
-```
+`npm i` or `yarn install`
 
 ## ⚙️ Execution
 
 To start the development mode, just type:
-```
-yarn dev
-##or
-npm run dev
-```
+`yarn dev` or `npm run dev`
