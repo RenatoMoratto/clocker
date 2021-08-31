@@ -1,6 +1,6 @@
-# Basic CRUD with ReactJS and MySQL
+# Clocker
 
-Repository of the basic crud course of ReactJS with MySQL from [Codar.me](https://github.com/CodarMe).
+Repository of [Codar.me](https://github.com/CodarMe)'s Full Stack Week No Cost project.
 
 ## 🚀 Getting started
 
@@ -19,9 +19,17 @@ git clone https://github.com/RenatoMoratto/clocker.git
 ### 🔧 Installation
 
 Access the repository and run:
-`npm i` or `yarn install`
+```
+npm i 
+# or 
+yarn install
+```
 
 ## ⚙️ Execution
 
 To start the development mode, just type:
-`yarn dev` or `npm run dev`
+```
+yarn dev
+# or 
+npm run dev
+```
