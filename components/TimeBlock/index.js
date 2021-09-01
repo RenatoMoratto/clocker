@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import axios from 'axios';
 
 import {
   Button,
@@ -14,6 +15,16 @@ import {
 } from '@chakra-ui/react';
 
 import { Input } from '../Input';
+
+const setSchedule = async (data) =>
+  axios({
+    method: 'post',
+    url: '/api/schedule',
+    data: {
+      ...data,
+      username: window.location.pathname.replace('/', ''),
+    },
+  });
 
 function ModalTimeBlock({ isOpen, onClose, onComplete, children }) {
   return (
@@ -46,7 +57,7 @@ export function TimeBlock({ time }) {
       onSubmit: (values) => setSchedule({ ...values, when: time }),
       initialValues: {
         name: '',
-        phone: '',
+        email: '',
       },
       validationSchema: yup.object().shape({
         name: yup.string().required('Preenchimento obrigatório'),
