@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useFetch } from '@refetty/react';
 import axios from 'axios';
 import { addDays, subDays } from 'date-fns';
+
 import {
   Box,
   Button,
@@ -13,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
-import { useAuth, Logo, formatDate } from '../components';
+import { useAuth, Logo, formatDate, TimeBlock } from '../components';
 
 const getSchedule = async (when) =>
   axios({
@@ -32,14 +33,6 @@ function Header({ children }) {
     >
       {children}
     </Box>
-  );
-}
-
-function TimeBlock(props) {
-  return (
-    <Button p={8}  bg="blue.500" color="white" >
-      {props.time}
-    </Button>
   );
 }
 
@@ -88,7 +81,7 @@ export default function Schedule() {
           />
         )}
         {data?.map((time) => (
-          <TimeBlock time={time} key={time}/>
+          <TimeBlock time={time} key={time} />
         ))}
       </SimpleGrid>
     </Container>
