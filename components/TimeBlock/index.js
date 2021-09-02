@@ -118,7 +118,6 @@ export function TimeBlock({ time, date, disabled }) {
               error={errors.name}
               value={values.name}
               placeholder="Digite seu nome"
-              o
               onChange={handleChange}
               onBlur={handleBlur}
               size="lg"

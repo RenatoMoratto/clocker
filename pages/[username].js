@@ -16,13 +16,13 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 import { useAuth, Logo, formatDate, TimeBlock } from '../components';
 
-const getSchedule = async (when) =>
+const getSchedule = async ({ when, username }) =>
   axios({
     method: 'get',
     url: '/api/schedule',
     params: {
-      username: window.location.pathname.replace('/', ''),
-      date: format(when, 'yyy-MM-dd'),
+      username,
+      date: format(when, 'yyyy-MM-dd'),
     },
   });
 
@@ -40,8 +40,8 @@ function Header({ children }) {
 }
 
 export default function Schedule() {
-  const [auth, { logout }] = useAuth();
   const router = useRouter();
+  const { logout } = useAuth();
   const [when, setWhen] = useState(() => new Date());
   const [data, { loading, status, error }, fetch] = useFetch(getSchedule, {
     lazy: true,
@@ -55,8 +55,12 @@ export default function Schedule() {
   };
 
   useEffect(() => {
-    fetch(when);
-  }, [when]);
+    fetch({ when, username: router.query.username });
+  }, [when, router.query.username]);
+
+  if (error) {
+    redirect(404);
+  }
 
   return (
     <Container>
@@ -66,11 +70,19 @@ export default function Schedule() {
       </Header>
 
       <Box mt={8} display="flex" alignItems="center">
-        <IconButton icon={<ChevronLeftIcon />} onClick={removeDay} />
+        <IconButton
+          icon={<ChevronLeftIcon />}
+          bg="transparent"
+          onClick={removeDay}
+        />
         <Box flex={1} textAlign="center">
           {formatDate(when, 'PPPP')}
         </Box>
-        <IconButton icon={<ChevronRightIcon />} onClick={addDay} />
+        <IconButton
+          icon={<ChevronRightIcon />}
+          bg="transparent"
+          onClick={addDay}
+        />
       </Box>
 
       <SimpleGrid p={4} columns={2} spacing={4}>
@@ -78,7 +90,7 @@ export default function Schedule() {
           <Spinner
             tickness="4px"
             speed="0.65s"
-            emptyColor="gary.200"
+            emptyColor="gray.200"
             color="blue.500"
             size="xl"
           />
