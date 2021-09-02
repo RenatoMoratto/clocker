@@ -26,7 +26,13 @@ const setSchedule = async (data) =>
     },
   });
 
-function ModalTimeBlock({ isOpen, onClose, onComplete, children }) {
+function ModalTimeBlock({
+  isOpen,
+  onClose,
+  onComplete,
+  isSubmitting,
+  children,
+}) {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -36,10 +42,17 @@ function ModalTimeBlock({ isOpen, onClose, onComplete, children }) {
         <ModalBody>{children}</ModalBody>
 
         <ModalFooter>
-          <Button variant="ghost" onClick={onClose}>
-            Cancelar
-          </Button>
-          <Button colorScheme="blue" mr={3} onClick={onComplete}>
+          {!isSubmitting && (
+            <Button variant="ghost" onClick={onClose}>
+              Cancelar
+            </Button>
+          )}
+          <Button
+            colorScheme="blue"
+            mr={3}
+            onClick={onComplete}
+            isLoading={isSubmitting}
+          >
             Reservar horário
           </Button>
         </ModalFooter>
@@ -52,18 +65,32 @@ export function TimeBlock({ time }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen((prevState) => !prevState);
 
-  const { values, handleSubmit, handleChange, handleBlur, errors, touched } =
-    useFormik({
-      onSubmit: (values) => setSchedule({ ...values, when: time }),
-      initialValues: {
-        name: '',
-        email: '',
-      },
-      validationSchema: yup.object().shape({
-        name: yup.string().required('Preenchimento obrigatório'),
-        phone: yup.string().required('Preenchimento obrigatório'),
-      }),
-    });
+  const {
+    values,
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    errors,
+    touched,
+    isSubmitting,
+  } = useFormik({
+    onSubmit: async (values) => {
+      try {
+        await setSchedule({ ...values, when: time });
+        toggle();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    initialValues: {
+      name: '',
+      email: '',
+    },
+    validationSchema: yup.object().shape({
+      name: yup.string().required('Preenchimento obrigatório'),
+      phone: yup.string().required('Preenchimento obrigatório'),
+    }),
+  });
 
   return (
     <Button p={8} bg="blue.500" color="white" onClick={toggle}>
@@ -72,6 +99,7 @@ export function TimeBlock({ time }) {
         isOpen={isOpen}
         onClose={toggle}
         onComplete={handleSubmit}
+        isSubmitting={isSubmitting}
       >
         <>
           <Input
@@ -85,6 +113,7 @@ export function TimeBlock({ time }) {
             onChange={handleChange}
             onBlur={handleBlur}
             size="lg"
+            disabled={isSubmitting}
           />
 
           <Input
@@ -97,6 +126,7 @@ export function TimeBlock({ time }) {
             placeholder="(99) 9 9999-9999"
             size="lg"
             mt={4}
+            disabled={isSubmitting}
           />
         </>
       </ModalTimeBlock>
