@@ -71,7 +71,7 @@ const getSchedule = async (req, res) => {
 
     return res.status(200).json(result);
   } catch (error) {
-    console.log('FIREBASE ERROR', error);
+    console.log('FB ERROR:', error);
     return res.status(401);
   }
 };

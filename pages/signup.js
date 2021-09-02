@@ -52,12 +52,12 @@ export default function SignUp() {
   });
 
   useEffect(() => {
-    auth.user && router.push('/agenda')
-  }, [auth.user])
+    auth.user && router.push('/agenda');
+  }, [auth.user]);
 
   return (
     <Container p={4} centerContent>
-      <Logo />
+      <Logo size={200} />
       <Box p={4} mt={8}>
         <Text>Crie sua agenda compartilhada</Text>
       </Box>

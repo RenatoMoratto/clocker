@@ -1,20 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useFetch } from '@refetty/react';
-import axios from 'axios';
 import { addDays, subDays, format } from 'date-fns';
+import axios from 'axios';
 
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import {
-  Box,
   Container,
+  Box,
   IconButton,
   SimpleGrid,
   Spinner,
-  Center,
 } from '@chakra-ui/react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
-import { Logo, formatDate, TimeBlock } from '../components';
+import { formatDate, Logo, TimeBlock } from '../components';
 
 const getSchedule = async ({ when, username }) =>
   axios({
@@ -26,36 +25,21 @@ const getSchedule = async ({ when, username }) =>
     },
   });
 
-function Header({ children }) {
-  return (
-    <Box
-      p={4}
-      display="flex"
-      alignItems="center"
-      justifyContent="space-between"
-    >
-      {children}
-    </Box>
-  );
-}
+const Header = ({ children }) => (
+  <Box p={4} display="flex" alignItems="center" justifyContent="space-between">
+    {children}
+  </Box>
+);
 
 export default function Schedule() {
   const router = useRouter();
   const [when, setWhen] = useState(() => new Date());
-  const [data, { loading }, fetch] = useFetch(getSchedule, {
-    lazy: true,
-  });
+  const [data, { loading }, fetch] = useFetch(getSchedule, { lazy: true });
 
-  const addDay = () => {
-    setWhen((prevState) => addDays(prevState, 1));
-  };
-  const removeDay = () => {
-    setWhen((prevState) => subDays(prevState, 1));
-  };
+  const addDay = () => setWhen((prevState) => addDays(prevState, 1));
+  const removeDay = () => setWhen((prevState) => subDays(prevState, 1));
 
-  const refresh = () => {
-    fetch({ when, username: router.query.username });
-  };
+  const refresh = () => fetch({ when, username: router.query.username });
 
   useEffect(() => {
     refresh();
@@ -85,15 +69,13 @@ export default function Schedule() {
 
       <SimpleGrid p={4} columns={2} spacing={4}>
         {loading && (
-          <Center width="200%" height="100%">
-            <Spinner
-              tickness="4px"
-              speed="0.65s"
-              emptyColor="gray.200"
-              color="blue.500"
-              size="xl"
-            />
-          </Center>
+          <Spinner
+            tickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+          />
         )}
         {data?.map(({ time, isBlocked }) => (
           <TimeBlock
@@ -101,7 +83,7 @@ export default function Schedule() {
             time={time}
             date={when}
             disabled={isBlocked}
-            onSucess={refresh}
+            onSuccess={refresh}
           />
         ))}
       </SimpleGrid>

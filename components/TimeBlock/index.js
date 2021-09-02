@@ -63,7 +63,7 @@ function ModalTimeBlock({
   );
 }
 
-export function TimeBlock({ time, date, disabled }) {
+export function TimeBlock({ time, date, disabled, onSucess }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen((prevState) => !prevState);
 
@@ -80,6 +80,7 @@ export function TimeBlock({ time, date, disabled }) {
       try {
         await setSchedule({ ...values, time, date });
         toggle();
+        onSucess();
       } catch (error) {
         console.log(error);
       }
