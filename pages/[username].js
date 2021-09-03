@@ -11,6 +11,7 @@ import {
   SimpleGrid,
   Spinner,
   Center,
+  Link,
 } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
