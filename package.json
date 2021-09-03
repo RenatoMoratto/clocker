@@ -20,7 +20,7 @@
     "firebase-admin": "^9.4.2",
     "formik": "^2.2.6",
     "framer-motion": "^3.2.2-rc.1",
-    "next": "10.0.6",
+    "next": "11.1.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "remask": "^0.1.0-alpha.5",
