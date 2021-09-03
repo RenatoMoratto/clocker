@@ -64,7 +64,9 @@ export default function Schedule() {
   return (
     <Container>
       <Header>
-        <Logo size={150} />
+        <Link href="/">
+          <Logo size={150} />
+        </Link>
       </Header>
 
       <Box mt={8} display="flex" alignItems="center">
