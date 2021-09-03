@@ -87,7 +87,7 @@ export function TimeBlock({ time, date, disabled, onSucess }) {
     },
     initialValues: {
       name: '',
-      email: '',
+      phone: '',
     },
     validationSchema: yup.object().shape({
       name: yup.string().required('Preenchimento obrigatório'),
