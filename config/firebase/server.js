@@ -11,7 +11,7 @@ const app = firebaseServer.apps.length
           'https://www.googleapis.com/oauth2/v1/certs',
         project_id: process.env.PROJECT_ID,
         private_key_id: process.env.PRIVATE_KEY_ID,
-        private_key: process.env.PRIVATE_KEY,
+        private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
         client_email: process.env.CLIENT_EMAIL,
         client_id: process.env.CLIENT_ID,
         client_cert: process.env.CLIENT_CERT,
